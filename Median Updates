@@ -1,0 +1,124 @@
+#we should have to return the median after each number is added to a list.
+
+------------The following code which is provided by default in Hackerrank is not required. Therefore, I have commented it out-----------------
+# #!/bin/python
+# def median(a,x):
+    
+
+# N = int(input())
+# s = []
+# x = []
+# for i in range(0, N):
+#    tmp = input().strip().split(' ')
+#    a, b = [xx for xx in tmp]
+#    s.append(a)
+#    x.append(int(b))
+# median(s,x)
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+################ the following code has been executed for all test cases ##################################
+
+from bisect import bisect_left
+
+def binary_search(lst, x):
+    m = bisect_left(lst, x, 0, len(lst))
+    return m
+
+def median(lst):
+    x = len(lst)
+    if x == 0:
+        return "Wrong!"
+
+    if x % 2 == 0:
+        m = (lst[x // 2] + lst[x // 2 - 1]) / 2
+    else:
+        m = lst[x//2]
+
+    return ('%f' % m).rstrip('0').rstrip('.')
+
+def main():
+    nums = []
+    k = int(input())
+
+    for i in range(k):
+        operation, n = input().split()
+        n = int(n)
+
+        idx = binary_search(nums, n)
+
+        if operation == "r":
+
+            if idx >= len(nums) or nums[idx] != n:
+                print("Wrong!")
+                continue
+            else:
+                nums.pop(idx)
+
+        elif operation == "a": 
+            nums.insert(idx, n)
+        
+        print(median(nums))
+
+if __name__ == "__main__":
+    main()
+
+################## explanation ####################
+
+from bisect import bisect_left
+
+# Function for binary search in a sorted list
+def binary_search(lst, x):
+    m = bisect_left(lst, x, 0, len(lst))
+    return m
+
+# Function to calculate the median of a list
+def median(lst):
+    x = len(lst)
+    
+    # If the list is empty, return "Wrong!"
+    if x == 0:
+        return "Wrong!"
+
+    # Calculate the median based on the length of the list
+    if x % 2 == 0:
+        m = (lst[x // 2] + lst[x // 2 - 1]) / 2
+    else:
+        m = lst[x // 2]
+
+    return ('%f' % m).rstrip('0').rstrip('.')
+
+# Main function
+def main():
+    nums = []  # List to store numbers
+    k = int(input())  # Number of operations to perform
+
+    # Loop through each operation
+    for i in range(k):
+        operation, n = input().split()
+        n = int(n)
+
+        # Perform binary search to find the index for insertion or removal
+        idx = binary_search(nums, n)
+
+        # If the operation is "r" (remove)
+        if operation == "r":
+            # Check if the index is out of bounds or if the number to remove is not present
+            if idx >= len(nums) or nums[idx] != n:
+                print("Wrong!")
+                continue
+            else:
+                # Remove the number at the found index
+                nums.pop(idx)
+
+        # If the operation is "a" (add)
+        elif operation == "a": 
+            # Insert the number at the correct position to maintain sorted order
+            nums.insert(idx, n)
+        
+        # Print the current median of the list
+        print(median(nums))
+
+# Entry point of the program
+if __name__ == "__main__":
+    main()
+######################################################################
